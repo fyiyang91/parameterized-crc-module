@@ -138,12 +138,13 @@ case_num - 1, len(self.poly) - 2, case_num - 1))
       fd1 = $fopen(\"CRC_tb.out\");\n\n      /* %d random test data entries */\n      for (index = 1; index <= %d; index = \
 index + 1) begin\n         Compute_CRC(data_mem[index - 1]);\n      end\n      $fclose(fd1);\n      $finish;\n\n   end\n\n'\
  % (rand_data_path, gold_crc_path, case_num, case_num))
-      out.append('   always @(crc_out_tb) begin\n      if (crc_out_tb == golden_crc_out_mem[index - 1])\n         $fstrobe(fd1, \
-\"Test case #%12d:    data_in = 0x%h,    crc_out = 0x%h, golden_crc_out = 0x%h, TEST MATCH!\", index, data_in_tb, crc_out_tb, \
-golden_crc_out_mem[index - 1]);\n      else\n         $fstrobe(fd1, \"Test case #%12d:    data_in = 0x%h,    crc_out = 0x%h, \
-golden_crc_out = 0x%h, TEST MISMATCH!\", index, data_in_tb, crc_out_tb, golden_crc_out_mem[index - 1]);   end\n\n\n')
-      out.append('   task Compute_CRC;\n      input [%d:0] data_in_task;\n\n      begin\n         data_in_tb = data_in_task;\n\
-         #`DELAY;\n      end\n   endtask\n\nendmodule' % (self.data_width - 1,))
+      out.append('   always @(crc_out_tb) begin\n      if (crc_out_tb == golden_crc_out_mem[index - 1])\n         $fstrobe\
+(fd1,\"Test case #%12d:    data_in = 0x%h,    crc_out = 0x%h, golden_crc_out = 0x%h, TEST MATCH!\", index, data_in_tb, \
+crc_out_tb, golden_crc_out_mem[index - 1]);\n      else\n         $fstrobe(fd1, \"Test case #%12d:    data_in = 0x%h,    \
+crc_out = 0x%h, golden_crc_out = 0x%h, TEST MISMATCH!\", index, data_in_tb, crc_out_tb, golden_crc_out_mem[index - 1]);\n\
+   end\n\n\n')
+      out.append('   task Compute_CRC;\n      input [%d:0] data_in_task;\n\n      begin\n         data_in_tb = \
+data_in_task;\n         #`DELAY;\n      end\n   endtask\n\nendmodule' % (self.data_width - 1,))
       fd = open(tb_path, 'w')
       fd.write(''.join(out))
       fd.close()
