@@ -1,4 +1,4 @@
 parameterized-crc-module
 ========================
 
-A parameterized CRC verilog module generator in python
+A parameterized Cyclic Redundancy Check verilog module generator in python, comes with automated testbench
